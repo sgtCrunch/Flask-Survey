@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}TITLE{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+
+        {% for cat, msg in get_flashed_messages(with_categories=true) %}
+        <div class = "{{ cat }}">{{ msg }}</div>
+        {% endfor %}
+
+        <h1>{% block h1 %}header 1{% endblock %}</h1>
+
+        {% block content %}
+
+        BODY content
+
+        {% endblock %}
+
+    </body>
+
+</html>
