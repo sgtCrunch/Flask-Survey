@@ -1,7 +1,5 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, session
 from surveys import satisfaction_survey
-
-responses = []
 
 app = Flask(__name__)
 app.secret_key = 'survey_pass'
@@ -12,6 +10,8 @@ def home_page():
 
 @app.route('/question/<qNum>')
 def qeustion_page(qNum):
+    responses = session['responses']
+
     if int(qNum) != len(responses):
         flash('Invalid Question URL', 'error')
         return redirect(f'/question/{len(responses)}')
@@ -24,7 +24,10 @@ def qeustion_page(qNum):
 
 @app.route('/answer', methods = ['POST'])
 def story_page():
+    responses = session['responses']
     responses.append(request.form['answer'])
+    session['reponses'] = responses
+
     if len(satisfaction_survey.questions) == len(responses):
         return redirect('/thankyou')
     else:
@@ -33,3 +36,9 @@ def story_page():
 @app.route('/thankyou')
 def thank_you():
     return render_template('thankyou.html', survey = satisfaction_survey)
+
+@app.route('/start', methods = ['POST'])
+def start():
+    session['responses'] = []
+    return redirect('question/0')
+

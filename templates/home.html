@@ -9,8 +9,9 @@
 <div id="Survey-Area">
 
     <p>{{ survey.instructions }}</p>
-
-    <button class="button"><a href="/question/0">Start</a></button>
+    <form method="POST" action="/start">
+        <button class="button">Start</button>
+    </form>
 
 </div>
 
